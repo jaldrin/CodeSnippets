@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>UTS UnitTest Simple RunOption</Title>
+      <Author>E. John Aldrin</Author>
+      <Description>Create a Fact Unit Test</Description>
+      <Shortcut>UTS</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="csharp" Delimiter="$"><![CDATA[
+      	[Theory]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.All, "All - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.HOME, "HOME - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.CP, "CP - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.SH, "SH - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.MS, "MS - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.NP, "NP - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.HT, "HT - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.FCcp, "FCcp - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.TFCcp, "TFCcp - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.LOver, "LOver - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption1, CheckpointType.Maint, "Maint - UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption2, CheckpointType.All, "UseEmptyItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption3, CheckpointType.All, "UseInvalidId | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption4, CheckpointType.All, "UseNullId | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption6, CheckpointType.HT, "HT - UsePopulatedItem | UseNothing | FormatError | UseNegativeValues")]
+        [InlineData(RuntimeOptions.RunOption6, CheckpointType.LOver, "LOver - UsePopulatedItem | UseNothing | FormatError | UseNegativeValues")]
+        [InlineData(RuntimeOptions.RunOption6, CheckpointType.Maint, "Maint - UsePopulatedItem | UseNothing | FormatError | | UseNegativeValues")]
+        [InlineData(RuntimeOptions.RunOption7, CheckpointType.HT, "HT - UsePopulatedItem | UseNothing | FormatError | UseNullValues")]
+        [InlineData(RuntimeOptions.RunOption7, CheckpointType.LOver, "LOver - UsePopulatedItem | UseNothing | FormatError | UseNullValues")]
+        [InlineData(RuntimeOptions.RunOption7, CheckpointType.Maint, "Maint - UsePopulatedItem | UseNothing | FormatError | UseNullValues")]
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

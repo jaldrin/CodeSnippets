@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>UTT_UnitTestTheory</Title>
+      <Author>E. John Aldrin</Author>
+      <Description>Create a Theory Unit Test</Description>
+      <Shortcut>UTT</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Form</ID>
+          <ToolTip>Form Name</ToolTip>
+          <Default>XXX</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Page</ID>
+          <ToolTip>Page Name</ToolTip>
+          <Default>YYY</Default>
+        </Literal>
+        <Literal>
+          <ID>Method</ID>
+          <ToolTip>Method Name</ToolTip>
+          <Default>ZZZ</Default>
+        </Literal>
+        <Literal>
+          <ID>ID</ID>
+          <ToolTip>Identifier Name</ToolTip>
+          <Default>plan</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[
+        [Theory]
+        [InlineData(RuntimeOptions.RunOption1, "UsePopulatedItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption2, "UseEmptyItem | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption3, "UseInvalidId | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption4, "UseNullId | UseNothing")]
+        [InlineData(RuntimeOptions.RunOption10, "UsePopulatedItem | HasFormatError")]
+        public async void $Form$_$Page$_On$Method$_ReturnsProperResponse(RuntimeOptions idOption, string description)
+        {
+            //  Assign
+            var target = $Page$Page;
+            var setupInfo = SetRuntimeOptions(idOption);
+            var tripId = setupInfo.Item1;
+            var segmentId = setupInfo.Item2;
+            var pointId = setupInfo.Item3;
+            var planId = setupInfo.Item4;
+            var seqNo = setupInfo.Item5;
+            var validIds = setupInfo.Item6;
+            var formatError = setupInfo.Item7;
+            var rowCount = setupInfo.Rest;
+            //  Act
+            var actual = await target.On$Method$Async($ID$Id);
+            //  Assert
+            if (TryCast<RedirectToPageResult>(actual, out var result))
+            {
+                Assert.True(validIds);
+                Assert.EndsWith("Index", result.PageName);
+                Assert.NotEmpty(result.RouteValues);
+                Assert.Equal($ID$Id, result.RouteValues["XXXX"]);
+                Assert.StartsWith("Successfully", target.Message);
+                //  TODO: Add tests here...
+            }
+            else if (TryCast<NotFoundResult>(actual, out _))
+            {
+                Assert.False(validIds);
+                //Assert.True(!validIds || ((idOption & RuntimeOptions.RunOption2) == RuntimeOptions.RunOption2));
+            }
+            else if (TryCast<PageResult>(actual, out _))
+            {
+                Assert.True(formatError);
+                var errors = target.ModelState.Values.Where(ms => ms.ValidationState != ModelValidationState.Valid)
+                                                     .ToList();
+                foreach (var item in errors)
+                    foreach (var error in item.Errors)
+                        _logger.WriteLine($$"State: {item.ValidationState}, Error: {error.ErrorMessage} - {description}");
+            }
+            else
+                throw new NotImplementedException($$"Got return class of: {actual.GetType().Name}");
+
+            _logger.WriteLine($$"Type: {actual.GetType().Name}, Option: {idOption} - {description}");
+        }
+    }
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

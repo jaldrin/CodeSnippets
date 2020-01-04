@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>UTO_UnitTestOptions</Title>
+            <Author>John Aldrin</Author>
+            <Description>Standard Runtime Options</Description>
+            <Shortcut>UTO</Shortcut>
+        </Header>
+        <Snippet>
+                <Import>Microsoft.AspNetCore.Mvc</Import>
+                <Import>Microsoft.AspNetCore.Mvc.ModelBinding</Import>
+                <Import>Microsoft.AspNetCore.Mvc.RazorPages</Import>
+                <Import>Microsoft.Extensions.Configuration</Import>
+                <Import>System</Import>
+                <Import>System.Linq</Import>
+                <Import>TripManager.Common.Enums</Import>
+                <Import>TripManager.Web.Pages.Manage.PlannedCheckpoints</Import>
+                <Import>TripManager.Web.Services</Import>
+                <Import>TripManager.Web.Services.Data</Import>
+                <Import>Xunit</Import>
+                <Import>Xunit.Abstractions</Import>
+            <Code Language="csharp" Delimiter="$">
+                <![CDATA[[Flags]
+        public enum RuntimeOptions
+        {
+            UseNothing = 0b_0000_0000_0000_0000,
+            UsePopulatedItem = 0b_0000_0000_0000_0001,
+            UseEmptyItem = 0b_0000_0000_0000_0010,
+            UseNullId = 0b_0000_0000_0000_0100,
+            UseInvalidId = 0b_0000_0000_0000_1000,
+            UseItem1 = 0b_0000_0000_0001_0000,
+            UseItem2 = 0b_0000_0000_0010_0000,
+            UseItem3 = 0b_0000_0000_0100_0000,
+            HasNullValues = 0b_0000_0001_0000_0000,
+            HasNegativeValues = 0b_0000_0010_0000_0000,
+            HasFormatError = HasNullValues | HasNegativeValues,
+
+            RunOption1 = UsePopulatedItem | UseNothing,
+            RunOption2 = UseEmptyItem | UseNothing,
+            RunOption3 = UseInvalidId | UseNothing,
+            RunOption4 = UseNullId | UseNothing,
+            RunOption5 = UsePopulatedItem | UseItem1,
+            RunOption6 = UsePopulatedItem | UseItem2,
+            RunOption7 = UsePopulatedItem | UseItem3,
+            RunOption10 = UsePopulatedItem | HasFormatError,
+            RunOption11 = UsePopulatedItem | HasNullValues,
+            RunOption12 = UsePopulatedItem | HasNegativeValues
+        }
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

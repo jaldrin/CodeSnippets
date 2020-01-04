@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>UTC_UnitTestConstructor</Title>
+            <Author>John Aldrin</Author>
+            <Description>Standard XUnit Class &amp; Constructor</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>UTC</Shortcut>
+        </Header>
+        <Snippet>
+                <Import>Microsoft.AspNetCore.Mvc</Import>
+                <Import>Microsoft.AspNetCore.Mvc.ModelBinding</Import>
+                <Import>Microsoft.AspNetCore.Mvc.RazorPages</Import>
+                <Import>Microsoft.Extensions.Configuration</Import>
+                <Import>System</Import>
+                <Import>System.Linq</Import>
+                <Import>TripManager.Common.Enums</Import>
+                <Import>TripManager.Web.Pages.Manage.PlannedCheckpoints</Import>
+                <Import>TripManager.Web.Services</Import>
+                <Import>TripManager.Web.Services.Data</Import>
+                <Import>Xunit</Import>
+                <Import>Xunit.Abstractions</Import>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>BaseClass</ID>
+                    <ToolTip>Base Class</ToolTip>
+                    <Default>XXX</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Delimiter="$">
+                <![CDATA[using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
+using System.Linq;
+using TripManager.Web.Interfaces.Data;
+using TripManager.Web.Pages.Manage.$BaseClass$;
+using TripManager.Web.Services.Data;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace TripManager.Web.UnitTests.Pages.Manage
+{
+    public class $BaseClass$Tests : ApplicationDbTestBase
+    {
+        #region Constructor
+        private readonly ITestOutputHelper _logger;
+        private readonly I$BaseClass$Services _$BaseClass$Svcs;
+        public $BaseClass$Tests(ITestOutputHelper logger) : base()
+        {
+            //  Gather Internal Services (not published)
+            var getUser = new A_GetUserMock();
+
+            // Define Published Services
+            _logger = logger;
+            _$BaseClass$Scvs = new $BaseClass$Services(getUser);
+
+
+            //  Define Page Objects
+            IndexPage = new IndexModel();
+            DetailPage = new DetailsModel();
+            EditPage = new EditModel();
+            DeletePage = new DeleteModel();
+            CreatePage = new CreateModel();
+        }
+        #endregion
+
+        #region Public Properties
+        [Flags]
+        public enum RuntimeOptions
+        {
+            UseNothing = 0b_0000_0000_0000_0000,
+            UsePopulatedItem = 0b_0000_0000_0000_0001,
+            UseEmptyItem = 0b_0000_0000_0000_0010,
+            UseNullId = 0b_0000_0000_0000_0100,
+            UseInvalidId = 0b_0000_0000_0000_1000,
+            UseItem1 = 0b_0000_0000_0001_0000,
+            UseItem2 = 0b_0000_0000_0010_0000,
+            UseItem3 = 0b_0000_0000_0100_0000,
+            HasNullValues = 0b_0000_0001_0000_0000,
+            HasNegativeValues = 0b_0000_0010_0000_0000,
+            HasFormatError = HasNullValues | HasNegativeValues,
+
+            RunOption1 = UsePopulatedItem | UseNothing,
+            RunOption2 = UseEmptyItem | UseNothing,
+            RunOption3 = UseInvalidId | UseNothing,
+            RunOption4 = UseNullId | UseNothing,
+            RunOption5 = UsePopulatedItem | UseItem1,
+            RunOption6 = UsePopulatedItem | UseItem2,
+            RunOption7 = UsePopulatedItem | UseItem3,
+            RunOption10 = UsePopulatedItem | HasFormatError,
+            RunOption11 = UsePopulatedItem | HasNullValues,
+            RunOption12 = UsePopulatedItem | HasNegativeValues
+        }
+
+        public IndexModel IndexPage { get; }
+        public DetailsModel DetailPage { get; }
+        public EditModel EditPage { get; }
+        public DeleteModel DeletePage { get; }
+        public CreateModel CreatePage { get; }
+        #endregion
+
+        #region Index Page
+        #endregion
+
+        #region Details Page
+        #endregion
+
+        #region Edit Page
+        #endregion
+
+        #region Delete Page
+        #endregion
+
+        #region Create Page
+        #endregion
+
+        #region Private Methods
+        private Tuple<Guid?, bool, bool> SetRuntimeOptions(RuntimeOptions options)
+        {
+            Guid? planId;
+            bool validId;
+            bool formatError = (options & RuntimeOptions.HasFormatError) == RuntimeOptions.HasFormatError;
+
+            if ((options & RuntimeOptions.UsePopulatedItem) == RuntimeOptions.UsePopulatedItem)
+            {
+                planId = XXX_Trip01_Segment01_Day01_Id;
+                validId = true;
+            }
+            else if ((options & RuntimeOptions.UseEmptyItem) == RuntimeOptions.UseEmptyItem)
+            {
+                planId = XXX_Trip01_Segment01_Day02_Id;
+                validId = true;
+            }
+            else if ((options & RuntimeOptions.UseInvalidId) == RuntimeOptions.UseInvalidId)
+            {
+                planId = Guid.Empty;
+                validId = false;
+            }
+            else if ((options & RuntimeOptions.UseNullId) == RuntimeOptions.UseNullId)
+            {
+                planId = null;
+                validId = false;
+            }
+            else
+                throw new ArgumentException("Invalid Runtime Row Type", nameof(options));
+
+            return new Tuple<Guid?, bool, bool>(item1: planId,
+                                                item2: validId,
+                                                item3: formatError);
+        }
+        #endregion
+    }
+}
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

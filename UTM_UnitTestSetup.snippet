@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+            <Title>UTM_UnitTestSetup</Title>
+            <Author>John Aldrin</Author>
+            <Description>Unit Test Setup RUntiome Options</Description>
+            <HelpUrl>
+            </HelpUrl>
+            <Shortcut>UTM</Shortcut>
+        </Header>
+        <Snippet>
+                <Import>Microsoft.AspNetCore.Mvc</Import>
+                <Import>Microsoft.AspNetCore.Mvc.ModelBinding</Import>
+                <Import>Microsoft.AspNetCore.Mvc.RazorPages</Import>
+                <Import>Microsoft.Extensions.Configuration</Import>
+                <Import>System</Import>
+                <Import>System.Linq</Import>
+                <Import>TripManager.Common.Enums</Import>
+                <Import>TripManager.Web.Pages.Manage.PlannedCheckpoints</Import>
+                <Import>TripManager.Web.Services</Import>
+                <Import>TripManager.Web.Services.Data</Import>
+                <Import>Xunit</Import>
+                <Import>Xunit.Abstractions</Import>
+            <Declarations>
+                <Literal Editable="true">
+                    <ID>BaseClass</ID>
+                    <ToolTip>Base Class</ToolTip>
+                    <Default>XXX</Default>
+                    <Function>
+                    </Function>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp" Delimiter="$">
+                <![CDATA[
+        private Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, int> SetRuntimeOptions(RuntimeOptions options, CheckpointType type = CheckpointType.All)
+        {
+            Guid? tripId;
+            Guid? segmentId;
+            Guid? pointId;
+            Guid? planId;
+            int seqNo;
+            bool validId;
+            bool formatError = (options & RuntimeOptions.HasFormatError) == RuntimeOptions.HasFormatError;
+            int rowCount = 0;
+
+            if ((options & RuntimeOptions.UsePopulatedItem) == RuntimeOptions.UsePopulatedItem)
+            {
+                tripId = Trip01_Id;
+                segmentId = Trip01_Segment01_Id;
+                if ((options & RuntimeOptions.UseItem2) == RuntimeOptions.UseItem2)
+                    planId = Trip01_Segment01_Day02_Id;
+                else if ((options & RuntimeOptions.UseItem3) == RuntimeOptions.UseItem3)
+                    planId = Trip01_Segment01_Day03_Id;
+                else
+                    planId = Trip01_Segment01_Day01_Id;
+                validId = true;
+                pointId = type switch
+                {
+                    CheckpointType.All => Checkpoint_Home_Id,
+                    CheckpointType.HOME => Checkpoint_Home_Id,
+                    CheckpointType.CP => Checkpoint_Basic_Id,
+                    CheckpointType.SH => Checkpoint_SH_Id,
+                    CheckpointType.MS => Checkpoint_MS_Id,
+                    CheckpointType.NP => Checkpoint_NP_Id,
+                    CheckpointType.HT => Checkpoint_HT_Id,
+                    CheckpointType.FCcp => Checkpoint_FC_Id,
+                    CheckpointType.TFCcp => Checkpoint_TFC_Id,
+                    CheckpointType.LOver => Checkpoint_LOver_Id,
+                    CheckpointType.Maint => Checkpoint_SVC_Id,
+                    _ => Checkpoint_Home_Id,
+                };
+                seqNo = type switch
+                {
+                    CheckpointType.All => Trip01_Segment01_Day01_HOME_SeqNo,
+                    CheckpointType.HOME => Trip01_Segment01_Day01_HOME_SeqNo,
+                    CheckpointType.CP => Trip01_Segment01_Day01_Basic_SeqNo,
+                    CheckpointType.SH => Trip01_Segment01_Day01_HOME_SeqNo,
+                    CheckpointType.MS => Trip01_Segment01_Day01_MS_SeqNo,
+                    CheckpointType.NP => Trip01_Segment01_Day01_NP_SeqNo,
+                    CheckpointType.HT => Trip01_Segment01_Day01_HT_SeqNo,
+                    CheckpointType.FCcp => Trip01_Segment01_Day01_FC_SeqNo,
+                    CheckpointType.TFCcp => Trip01_Segment01_Day01_TFC_SeqNo,
+                    CheckpointType.LOver => Trip01_Segment01_Day01_LOver_SeqNo,
+                    CheckpointType.Maint => Trip01_Segment01_Day01_Maint_SeqNo,
+                    _ => -1,
+                };
+                rowCount = type switch
+                {
+                    CheckpointType.All => CheckpointCount,
+                    CheckpointType.HOME => HomeCount,
+                    CheckpointType.CP => BasicCheckpointCount,
+                    CheckpointType.SH => ScenicHighwayCount,
+                    CheckpointType.MS => MissionCount,
+                    CheckpointType.NP => NationalParkCount,
+                    CheckpointType.HT => LodgingCount,
+                    CheckpointType.FCcp => FourCornerCount,
+                    CheckpointType.TFCcp => ThreeFlagsCount,
+                    CheckpointType.LOver => LayoverCount,
+                    CheckpointType.Maint => ServiceAppointmentCount,
+                    _ => 0,
+                };
+            }
+            else if ((options & RuntimeOptions.UseEmptyItem) == RuntimeOptions.UseEmptyItem)
+            {
+                tripId = Trip01_Id;
+                segmentId = Trip01_Segment02_Id;
+                planId = Trip01_Segment01_Day02_Id;
+                pointId = Checkpoint_Home_Id;
+                seqNo = 1;
+                validId = true;
+            }
+            else if ((options & RuntimeOptions.UseInvalidId) == RuntimeOptions.UseInvalidId)
+            {
+                tripId = Guid.NewGuid();
+                segmentId = Guid.NewGuid();
+                planId = Guid.NewGuid();
+                pointId = Guid.NewGuid();
+                seqNo = -1;
+                validId = false;
+            }
+            else if ((options & RuntimeOptions.UseNullId) == RuntimeOptions.UseNullId)
+            {
+                tripId = null;
+                segmentId = null;
+                planId = null;
+                pointId = null;
+                seqNo = -1;
+                validId = false;
+            }
+            else
+                throw new ArgumentException("Invalid Runtime Row Type", nameof(options));
+
+            return new Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, int>(item1: tripId,
+                                                                               item2: segmentId,
+                                                                               item3: pointId,
+                                                                               item4: planId,
+                                                                               item5: seqNo,
+                                                                               item6: validId,
+                                                                               item7: formatError,
+                                                                               rest: rowCount);
+        }
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

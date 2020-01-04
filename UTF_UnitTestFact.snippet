@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+      <Title>UTF UnitTestFact</Title>
+      <Author>E. John Aldrin</Author>
+      <Description>Create a Fact Unit Test</Description>
+      <Shortcut>UTF</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>Form</ID>
+          <ToolTip>Form Name</ToolTip>
+          <Default>XXX</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Page</ID>
+          <ToolTip>Page Name</ToolTip>
+          <Default>YYY</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>Method</ID>
+          <ToolTip>Method Name</ToolTip>
+          <Default>ZZZ</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp" Delimiter="$"><![CDATA[
+        [Fact]
+        public void $Form$_$Page$_On$Method$_ShouldReturnProperResult()
+        {
+            //  Assign
+            var target = $Page$Page;
+            //  Act
+            var actual = await target.On$Method$Async();
+            //  Assert
+            if (TryCast<RedirectToPageResult>(actual, out var result))
+            {
+                Assert.True(validIds);
+                Assert.EndsWith("Index", result.PageName);
+                Assert.NotEmpty(result.RouteValues);
+                Assert.Equal(pointId, result.RouteValues["XXXX"]);
+                Assert.StartsWith("Successfully", target.Message);
+                //  TODO: Add tests here...
+            }
+            else if (TryCast<NotFoundResult>(actual, out _))
+            {
+                Assert.False(validIds);
+                //Assert.True(!validIds || ((idOption & RuntimeOptions.RunOption2) == RuntimeOptions.RunOption2));
+            }
+            else if (TryCast<PageResult>(actual, out _))
+            {
+                Assert.True(formatError);
+                var errors = target.ModelState.Values.Where(ms => ms.ValidationState != ModelValidationState.Valid)
+                                                     .ToList();
+                foreach (var item in errors)
+                    foreach (var error in item.Errors)
+                        _logger.WriteLine($"State: {item.ValidationState}, Error: {error.ErrorMessage} - {description}");
+            }
+            else
+                throw new NotImplementedException($"Got return class of: {actual.GetType().Name}");
+
+            _logger.WriteLine($"Type: {actual.GetType().Name} - {nameof($Form$_$Page$_On$Method$_ShouldReturnProperResult)}");
+        }
+]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
