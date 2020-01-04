@@ -7,7 +7,7 @@
             </SnippetTypes>
             <Title>UTM_UnitTestSetup</Title>
             <Author>John Aldrin</Author>
-            <Description>Unit Test Setup RUntiome Options</Description>
+            <Description>Unit Test Setup Runtime Option Method</Description>
             <HelpUrl>
             </HelpUrl>
             <Shortcut>UTM</Shortcut>
@@ -36,7 +36,7 @@
             </Declarations>
             <Code Language="csharp" Delimiter="$">
                 <![CDATA[
-        private Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, int> SetRuntimeOptions(RuntimeOptions options, CheckpointType type = CheckpointType.All)
+        private Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, Tuple<int>> SetRuntimeOptions(RuntimeOptions options, CheckpointType? type = CheckpointType.All)
         {
             Guid? tripId;
             Guid? segmentId;
@@ -44,7 +44,7 @@
             Guid? planId;
             int seqNo;
             bool validId;
-            bool formatError = (options & RuntimeOptions.HasFormatError) == RuntimeOptions.HasFormatError;
+            bool formatError = (options & RuntimeOptions.HasFormatError) != RuntimeOptions.UseNothing;
             int rowCount = 0;
 
             if ((options & RuntimeOptions.UsePopulatedItem) == RuntimeOptions.UsePopulatedItem)
@@ -71,7 +71,7 @@
                     CheckpointType.TFCcp => Checkpoint_TFC_Id,
                     CheckpointType.LOver => Checkpoint_LOver_Id,
                     CheckpointType.Maint => Checkpoint_SVC_Id,
-                    _ => Checkpoint_Home_Id,
+                    _ => null,
                 };
                 seqNo = type switch
                 {
@@ -108,8 +108,8 @@
             {
                 tripId = Trip01_Id;
                 segmentId = Trip01_Segment02_Id;
-                planId = Trip01_Segment01_Day02_Id;
-                pointId = Checkpoint_Home_Id;
+                planId = null;
+                pointId = null;
                 seqNo = 1;
                 validId = true;
             }
@@ -134,14 +134,14 @@
             else
                 throw new ArgumentException("Invalid Runtime Row Type", nameof(options));
 
-            return new Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, int>(item1: tripId,
-                                                                               item2: segmentId,
-                                                                               item3: pointId,
-                                                                               item4: planId,
-                                                                               item5: seqNo,
-                                                                               item6: validId,
-                                                                               item7: formatError,
-                                                                               rest: rowCount);
+            return new Tuple<Guid?, Guid?, Guid?, Guid?, int, bool, bool, Tuple<int>>(item1: tripId,
+                                                                                      item2: segmentId,
+                                                                                      item3: pointId,
+                                                                                      item4: planId,
+                                                                                      item5: seqNo,
+                                                                                      item6: validId,
+                                                                                      item7: formatError,
+                                                                                      rest: new Tuple<int>(item1: rowCount));
         }
                 ]]>
             </Code>
