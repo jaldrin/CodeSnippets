@@ -99,7 +99,7 @@
                         _logger.WriteLine($"State: {item.ValidationState}, Error: {error.ErrorMessage} - {description}");
             }
             else
-                throw new NotImplementedException($"Got return class of: {actual.GetType().Name}");
+                throw new NotImplementedException($$"Got return class of: {actual.GetType().Name}");
 
             _logger.WriteLine($$"Type: {actual.GetType().Name}, Option: {idOption} - {description}");
         }
