@@ -58,7 +58,7 @@
                                                      .ToList();
                 foreach (var item in errors)
                     foreach (var error in item.Errors)
-                        _logger.WriteLine($"State: {item.ValidationState}, Error: {error.ErrorMessage} - {description}");
+                        _logger.WriteLine($$"State: {item.ValidationState}, Error: {error.ErrorMessage} - {description}");
             }
             else
                 throw new NotImplementedException($$"Got return class of: {actual.GetType().Name}");
