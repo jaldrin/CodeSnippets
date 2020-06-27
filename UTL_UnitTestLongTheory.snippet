@@ -77,22 +77,22 @@
             //  Assert
             if (TryCast<RedirectToPageResult>(actual, out var result))
             {
-                Assert.True(validIds);
-                Assert.EndsWith("Index", result.PageName);
-                Assert.NotEmpty(result.RouteValues);
-                Assert.Equal($ID$Id, result.RouteValues["XXXX"]);
-                Assert.StartsWith("Successfully", target.Message);
+                validIds.ShouldBeTrue();
+                result.PageName.ShouldEndWith("Index");
+                result.RouteValues.Count.ShouldBe(1);
+                result.RouteValues["XXXX"].ShouldBe($ID$Id);
+                target.Message.ShouldStartWith("Successfully");
                 //  TODO: Add tests here...
             }
             else if (TryCast<NotFoundResult>(actual, out _))
             {
-                Assert.False(validIds);
+                validIds.ShouldBeFalse();
                 //Assert.True(!validIds || ((idOption & RuntimeOptions.RunOption2) == RuntimeOptions.RunOption2));
                 //Assert.True(!validIds || (idOption == RuntimeOptions.EmptyId));
             }
             else if (TryCast<PageResult>(actual, out _))
             {
-                Assert.True(formatError);
+                formatError.ShouldBeTrue();Assert.True(formatError);
                 var errors = target.ModelState.Values.Where(ms => ms.ValidationState != ModelValidationState.Valid)
                                                      .ToList();
                 foreach (var item in errors)
