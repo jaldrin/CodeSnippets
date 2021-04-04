@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+			<Title>XCTOR - XUnit Constructor</Title>
+			<Author>E. John Aldrin</Author>
+			<Description>Create a XUnit Test Module Constructor	</Description>
+			<Shortcut>XCTOR</Shortcut>
+		</Header>
+		<Snippet>
+			<Imports>
+				<Import>
+					<Namespace>Xunit</Namespace>
+				</Import>
+				<Import>
+					<Namespace>Xunit.Abstractions</Namespace>
+				</Import>
+			</Imports>
+			<Declarations>
+				<Literal Default="true" Editable="false">
+					<ID>classname</ID>
+					<ToolTip>Class Name</ToolTip>
+					<Function>ClassName()</Function>
+					<Default>ClassNamePlaceholder</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp" Delimiter="$"><![CDATA[
+        #region Constructor
+        private readonly ITestOutputHelper _logger;
+        public $classname$(ITestOutputHelper logger)
+        {
+            _logger = logger;
+        }
+        #endregion
+]]></Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

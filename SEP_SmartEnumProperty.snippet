@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+			</SnippetTypes>
+			<Title>SEP - Smart Enum Property</Title>
+			<Author>E. John Aldrin</Author>
+			<Description>Create a Smart Enumuration Value</Description>
+			<Shortcut>SEP</Shortcut>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal Default="true" Editable="false">
+					<ID>classname</ID>
+					<ToolTip>Class Name</ToolTip>
+					<Function>ClassName()</Function>
+					<Default>ClassNamePlaceholder</Default>
+				</Literal>
+                <Literal>
+                    <ID>Enum</ID>
+                    <ToolTip>Enumeration Name</ToolTip>
+                    <Default>xxxx</Default>
+                </Literal>
+                <Literal>
+                    <ID>Value</ID>
+                    <ToolTip>Enumeration Value</ToolTip>
+                    <Default>9999</Default>
+                </Literal>
+			</Declarations>
+			<Code Language="csharp" Delimiter="$"><![CDATA[public static readonly $classname$ $Enum$ = new(nameof($Enum$), "$Enum$", $Value$);]]></Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
