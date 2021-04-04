@@ -13,18 +13,16 @@
             <Shortcut>UTC</Shortcut>
         </Header>
         <Snippet>
+            <Imports>
                 <Import>Microsoft.AspNetCore.Mvc</Import>
                 <Import>Microsoft.AspNetCore.Mvc.ModelBinding</Import>
                 <Import>Microsoft.AspNetCore.Mvc.RazorPages</Import>
                 <Import>Microsoft.Extensions.Configuration</Import>
                 <Import>System</Import>
                 <Import>System.Linq</Import>
-                <Import>TripManager.Common.Enums</Import>
-                <Import>TripManager.Web.Pages.Manage.PlannedCheckpoints</Import>
-                <Import>TripManager.Web.Services</Import>
-                <Import>TripManager.Web.Services.Data</Import>
                 <Import>Xunit</Import>
                 <Import>Xunit.Abstractions</Import>
+            </Imports>
             <Declarations>
                 <Literal Editable="true">
                     <ID>BaseClass</ID>
@@ -35,17 +33,7 @@
                 </Literal>
             </Declarations>
             <Code Language="csharp" Delimiter="$">
-                <![CDATA[using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Shouldly;
-using System;
-using System.Linq;
-using TripManager.Web.Interfaces.Data;
-using TripManager.Web.Pages.Manage.$BaseClass$;
-using TripManager.Web.Services.Data;
-using Xunit;
-using Xunit.Abstractions;
-
+                <![CDATA[
 namespace TripManager.Web.UnitTests.Pages.Manage
 {
     public class $BaseClass$Tests : ApplicationDbTestBase
